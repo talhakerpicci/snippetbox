@@ -13,14 +13,13 @@ import (
 )
 
 type application struct {
-	infoLog      *log.Logger
-	errorLog     *log.Logger
-	snippetModel *models.SnippetModel
+	infoLog  *log.Logger
+	errorLog *log.Logger
+	snippets *models.SnippetModel
 }
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
-
 	dsn := flag.String("dsn", "web:123456@/snippetbox?parseTime=true", "MySQL data source name")
 
 	flag.Parse()
@@ -36,9 +35,9 @@ func main() {
 	defer db.Close()
 
 	app := &application{
-		infoLog:      infoLog,
-		errorLog:     errorLog,
-		snippetModel: &models.SnippetModel{DB: db},
+		infoLog:  infoLog,
+		errorLog: errorLog,
+		snippets: &models.SnippetModel{DB: db},
 	}
 
 	srv := &http.Server{
